@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!--导入vue的包-->
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="浪起来" @click="show">
+        <input type="button" value="静止" @click="calm">
+        <h4>{{msg}}</h4>
+    </div>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'猥琐发育,别浪~~~!'
+            },
+            methods:{
+                show(){
+                    console.log(this.msg)
+                    //获取到头的第一个字符
+                    var start = this.msg.substring(0,1)
+                    //获取到后面的所有字符
+                    var end = this.msg.substring(1)
+                    //重新拼接
+                    this.msg = end + start
+                    alert("动起来")
+                },
+                calm(){
+                    alert("静")
+                }
+            } 
+        })
+    </script>
+</body>
+</html>
