@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!--导入vue的包-->
+    <script src="./lib/vue-2.4.0.js"></script>
+    <style>
+        .red {
+            color: red
+        }
+
+        .thin {
+            font-weight: 200;
+        }
+
+        .italic {
+            font-style: italic
+        }
+
+        .active {
+            letter-spacing: 0.5em
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+        <!--默认-->
+        <h1 class="red thin">很大的H1</h1>
+        <!--使用数组-->
+        <h2 :class="['thin','active']">很2的H2</h2>
+        <!--使用三元表达式-->
+        <h3 :class="['thin','active',flag?'red':'']">很3的H3</h3>
+        <!--用对象代替三元表达式-->
+        <h4 :class="['thin',{'active':flag}]">很4的H4</h4>
+        <!--为class使用class时,可用以下格式-->
+        <h5 :class="{red:true,thin:true,italic:false}">很5的H5</h5>
+        <!--完全用对象代替-->
+        <h6 :class="classObj">很666的H6</h6>
+        <p>{{msg}}</p>
+    </div>
+
+    <script>
+        //创建vue实例
+        //当我们导入包之后,在浏览器内存中,就多了一个vue构造函数 
+        var vm = new Vue({
+            el: '#app',//表示控制的对象的id
+            data: {//el数据
+                msg: '欢迎学习vue',
+                flag: true,
+                classObj:{red:true,thin:false,italic:false}
+            }
+        })
+    </script>
+
+</body>
+
+</html>

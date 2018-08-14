@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!--导入vue的包-->
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+
+<body>
+
+    <div id="app">
+        <p>{{msg}}</p>
+        <!--v-bind只能实现数据的单向绑定-->
+        <input type="text" v-bind:value="msg">
+        <!--v-model双向数据绑定-->
+        <input type="text" v-model="msg">
+    </div>
+
+    <script>
+        //创建vue实例
+        //当我们导入包之后,在浏览器内存中,就多了一个vue构造函数 
+        var vm = new Vue({
+            el: '#app',//表示控制的对象的id
+            data: {//el数据
+                msg: '大家都是好学生,爱敲代码,爱搬砖'
+            }
+        })
+    </script>
+
+</body>
+
+</html>

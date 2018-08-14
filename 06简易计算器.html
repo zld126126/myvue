@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!--导入vue的包-->
+    <script src="./lib/vue-2.4.0.js"></script>
+</head>
+
+<body>
+
+    <div id="app">
+        <input type="text" v-model="n1">
+        <select v-model="opt">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+        </select>
+        <input type="text" v-model="n2">
+        <button type="button" @click="result">等于</button>
+        <input type="text" v-model="r1">
+    </div>
+
+    <script>
+        //创建vue实例
+        //当我们导入包之后,在浏览器内存中,就多了一个vue构造函数 
+        var vm = new Vue({
+            el: '#app',//表示控制的对象的id
+            data: {//el数据
+                n1:'请输入数字1',
+                n2:'请输入数字2',
+                r1:'输出结果',
+                opt:'+'
+            },
+            methods:{
+                result(){
+                    //方法1
+                    //switch(this.opt){
+                        //case '+':
+                        //this.r1=parseInt(this.n1)+parseInt(this.n2)
+                        //break;
+                        //case '-':
+                        //this.r1=parseInt(this.n1)-parseInt(this.n2)
+                        //break;
+                        //case '*':
+                        //this.r1=parseInt(this.n1)*parseInt(this.n2)
+                        //break;
+                        //case '/':
+                        //this.r1=parseInt(this.n1)/parseInt(this.n2)
+                        //break;
+                    //}
+                    //方法2 不推荐
+                    var codeStr = 'parseInt(this.n1) '+this.opt+' parseInt(this.n2)'
+                    this.r1=eval(codeStr)
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>
