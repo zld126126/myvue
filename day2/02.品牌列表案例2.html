@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!--导入vue.js-->
+    <script src="../lib/vue-2.4.0.js"></script>
+    <!--导入bootstrap-->
+    <link rel="stylesheet" href="../lib/bootstrap-3.3.7.css">
+
+</head>
+<body>
+    <div id="app">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加品牌</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label for="">
+                    ID
+                    <input type="text" class="form-control" v-model="id">
+                </label>
+                <label for="">
+                    NAME
+                    <input type="text" class="form-control" v-model="name">
+                </label>
+                <!--在bue中,使用事件绑定,如果方法加了()就可传参数了-->
+                <input class="btn btn-primary" value="添加" type="button" @click="add">
+                <label>
+                    搜索名称关键字:
+                    <input type="text" class="form-control" v-model="keywords">
+                </label>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NAME</th>
+                    <th>CTIME</th>
+                    <th>OPERATION</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr v-for="item in list" :key="item.id"> -->
+                <tr v-for="item in search(keywords)" :key="item.id">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.ctime|dateFormat()}}</td>
+                    <td>
+                        <a href="" @click.prevent="del(item.id)">删除</a>
+                    </td>              
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="app2">
+        <p>{{dt|dateFormat}}</p>
+    </div>
+    <script>
+        Vue.filter('dateFormat',function(dataStr,pattern=""){
+            //根据给定时间字符串,得到特定的时间
+            var dt = new Date(dataStr)
+            //处理成预期格式
+            var y = dt.getFullYear();
+            var m = dt.getMonth()+1
+            var d = dt.getDate()
+            //return y+"-"+m+"-"+d;
+            if(pattern.toLowerCase() === 'yyyy-mm-dd'){
+                return `${y}-${m}-${d}`
+            }else{
+                var hh = dt.getHours()
+                var mm = dt.getMinutes()
+                var ss = dt.getSeconds()
+                return `${y}-${m}-${d} ${hh}:${mm}:${ss}`+"公有"
+            }
+        })
+        var vm2 = new Vue({
+            el: '#app2',
+            data:{
+                dt:new Date()
+            },
+            filters:{//私有过滤器 过滤器两个条件
+                dateFormat:function(dataStr,pattern=""){
+                    //根据给定时间字符串,得到特定的时间
+                    var dt = new Date(dataStr)
+                    //处理成预期格式
+                    var y = dt.getFullYear();
+                    var m = (dt.getMonth()+1).toString().padStart(2,'0');
+                    var d = dt.getDate().toString().padStart(2,'0');
+                    //return y+"-"+m+"-"+d;
+                    if(pattern.toLowerCase() === 'yyyy-mm-dd'){
+                        return `${y}-${m}-${d}`
+                    }else{
+                        var hh = dt.getHours().toString().padStart(2,'0')
+                        var mm = dt.getMinutes().toString().padStart(2,'0')
+                        var ss = dt.getSeconds().toString().padStart(2,'0')
+                        return `${y}-${m}-${d} ${hh}:${mm}:${ss}`+"私有"
+                    } 
+                }
+            }
+        })
+        var vm = new Vue({
+            el: '#app',//表示控制的对象的id
+            data: {//el数据
+                id:"",
+                name:"",
+                keywords:"",
+                list:[
+                    {id:1,name:"奔驰",ctime:new Date()},
+                    {id:2,name:"宝马",ctime:new Date()},
+                    {id:3,name:"丰田",ctime:new Date()}
+                ]
+            },
+            methods:{
+                add(){
+                    //创建对象
+                    var car = {id:this.id,name:this.name,ctime:new Date()}
+                    //增加对象
+                    this.list.push(car)
+                    //清空数据
+                    this.id=""
+                    this.name=""
+                },
+                del(id){
+                    //方法1
+                    //根据id查找对象
+                    // this.list.some((item,i)=>{
+                    //     if(item.id==id){
+                    //         //删除相应对象
+                    //         this.list.splice(i);
+                    //         //在数组的some方法中return true 终止循环
+                    //         return true;
+                    //     }
+                    // })
+                    //方法2
+                    var i = this.list.findIndex(item=>{
+                        if(item.id == id){
+                            return true;
+                        }
+                    })
+                    this.list.splice(i);
+                },
+                search(keywords){
+                    //写法1
+                    // var newList = []
+                    // this.list.forEach(item => {
+                    //     if(item.name.indexOf(keywords)!=-1){
+                    //         newList.push(item)
+                    //     }    
+                    // })
+                    // return newList
+                    //写法2
+                    var newList = []
+                    newList = this.list.filter(item => {
+                        if(item.name.includes(keywords)){
+                            return item
+                        }
+                    })
+                    return newList
+                }
+            }
+        });
+        //过滤器的定义语法
+        // Vue.filter('过滤器的名称',function(){
+            
+        // })
+
+        //过滤器中的function,第一个参数,已经被规定死了,永远都是过滤器管道符前面,传递过来的数据
+        Vue.filter('过滤器的名称',function(data){
+            return data+'123'
+        })
+    </script>
+</body>
+</html>
+
+<!--过滤器调用时候的格式{{ name | nameope }}-->
