@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <!--导入vue的包-->
-    <script src="./lib/vue-2.4.0.js"></script>
+    <script src="../lib/vue-2.4.0.js"></script>
 </head>
 
 <body>
@@ -20,7 +20,8 @@
         var vm = new Vue({
             el: '#app',
             data: {
-                msg: '猥琐发育,别浪~~~!'
+                msg: '猥琐发育,别浪~~~!',
+                intervalid:null
             },
             methods: {
                 show() {
@@ -39,7 +40,21 @@
                     //},400)
 
                     //写法2
-                    setInterval(() => {
+                    //this.intervalid = setInterval(() => {
+                        //获取到头的第一个字符
+                        //var start = this.msg.substring(0, 1)
+                        //获取到后面的所有字符
+                        //var end = this.msg.substring(1)
+                        //重新拼接
+                        //this.msg = end + start
+                        //alert("动起来")
+                    //}, 400)
+
+                    //最终写法
+                    if(this.intervalid!=null){
+                        return
+                    }else{
+                        this.intervalid = setInterval(() => {
                         //获取到头的第一个字符
                         var start = this.msg.substring(0, 1)
                         //获取到后面的所有字符
@@ -47,10 +62,14 @@
                         //重新拼接
                         this.msg = end + start
                         //alert("动起来")
-                    }, 400)
+                        }, 400)
+                    }
                 },
                 calm() {
-                    alert("静")
+                    clearInterval(this.intervalid)
+                    //每次清除了定时器后,需要重新赋值
+                    this.intervalid=null
+                    //alert("静")
                 }
             }
         })

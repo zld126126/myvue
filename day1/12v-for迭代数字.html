@@ -7,17 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <!--导入vue的包-->
-    <script src="./lib/vue-2.4.0.js"></script>
+    <script src="../lib/vue-2.4.0.js"></script>
 </head>
 
 <body>
 
     <div id="app">
-        <p>{{msg}}</p>
-        <!--v-bind只能实现数据的单向绑定-->
-        <input type="text" v-bind:value="msg">
-        <!--v-model双向数据绑定-->
-        <input type="text" v-model="msg">
+        <!--循环数字-->
+        <p v-for="count in 10">这是第{{ count }}次循环</p>
     </div>
 
     <script>
@@ -26,7 +23,7 @@
         var vm = new Vue({
             el: '#app',//表示控制的对象的id
             data: {//el数据
-                msg: '大家都是好学生,爱敲代码,爱搬砖'
+                
             }
         })
     </script>
