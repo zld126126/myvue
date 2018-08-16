@@ -24,13 +24,15 @@
                 </label>
                 <label for="">
                     NAME
-                    <input type="text" class="form-control" v-model="name">
+                    <!--keyup.enter=keyup.13 键盘码-->
+                    <!-- <input type="text" class="form-control" v-model="name" @keyup.13="add"> -->
+                    <input type="text" class="form-control" v-model="name" @keyup.f2="add">
                 </label>
                 <!--在bue中,使用事件绑定,如果方法加了()就可传参数了-->
                 <input class="btn btn-primary" value="添加" type="button" @click="add">
                 <label>
                     搜索名称关键字:
-                    <input type="text" class="form-control" v-model="keywords">
+                    <input type="text" class="form-control" v-model="keywords" v-focus v-color="'green'">
                 </label>
             </div>
         </div>
@@ -57,7 +59,7 @@
             </tbody>
         </table>
     </div>
-    <div id="app2">
+    <div id="app2" v-color="'pink'" v-fontweight="900" v-fontsize="'30px'">
         <p>{{dt|dateFormat}}</p>
     </div>
     <script>
@@ -78,6 +80,46 @@
                 return `${y}-${m}-${d} ${hh}:${mm}:${ss}`+"公有"
             }
         })
+        //自定义键盘码 F2 键盘码为 13
+        Vue.config.keyCodes.f2=113
+
+        //使用Vue.directive()
+        //参数1:指令名称 
+        //定义不需要加前缀v- 但是调用时需要
+        //参数2:对象,身上有一些指令相关的函数,这些函数可以在特定的阶段进行特定的操作
+
+        Vue.directive("focus",{
+            //绑定函数
+            bind:function(el){//执行一次
+                //在每个函数中,第一个参数,永远是el,表示被绑定指令的那个元素,el是一个原生js对象
+
+                //el.focus()
+            },
+            inserted:function(el){//执行一次 
+                //和js行为有关的操作
+                el.focus()
+            },
+            updated:function(){//执行多次
+
+            }
+        })
+
+        Vue.directive("color",{
+            //绑定函数
+            bind:function(el,bingding){//执行一次
+                //在每个函数中,第一个参数,永远是el,表示被绑定指令的那个元素,el是一个原生js对象
+                //内联样式,直接赋予
+                //console.log(bingding.value)
+                el.style.color = bingding.value
+            },
+            inserted:function(el){//执行一次
+
+            },
+            updated:function(){//执行多次
+
+            }
+        })
+
         var vm2 = new Vue({
             el: '#app2',
             data:{
@@ -100,6 +142,16 @@
                         var ss = dt.getSeconds().toString().padStart(2,'0')
                         return `${y}-${m}-${d} ${hh}:${mm}:${ss}`+"私有"
                     } 
+                }
+            },
+            directives:{
+                'fontweight':{
+                    bind:function(el,binding){
+                        el.style.fontWeight=binding.value
+                    }
+                },
+                'fontsize':function(el,binding){
+                    el.style.fontSize = binding.value
                 }
             }
         })
@@ -142,7 +194,7 @@
                             return true;
                         }
                     })
-                    this.list.splice(i);
+                    this.list.splice(i,1);
                 },
                 search(keywords){
                     //写法1
@@ -170,9 +222,9 @@
         // })
 
         //过滤器中的function,第一个参数,已经被规定死了,永远都是过滤器管道符前面,传递过来的数据
-        Vue.filter('过滤器的名称',function(data){
-            return data+'123'
-        })
+        // Vue.filter('过滤器的名称',function(data){
+        //     return data+'123'
+        // })
     </script>
 </body>
 </html>
