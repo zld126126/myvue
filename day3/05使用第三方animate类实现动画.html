@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!--导入vue的包-->
+    <script src="../lib/vue-2.4.0.js"></script>
+    <link rel="stylesheet" href="../lib/animate.css">
+    <!--入场bounceIn 立场 bounceOut-->
+</head>
+
+<body>
+
+    <div id="app">
+        <input type="button" value="toggle" @click="flag=!flag">
+        <p>{{msg}}</p>
+        <!-- <h3 v-if="flag">这是一个可隐藏的h3</h3> -->
+        <!--使用transition 元素,把需要别动画控制的元素,包裹起来-->
+        <!-- <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOut">
+            <h3 v-if="flag">这是一个可隐藏的h3</h3>
+        </transition> -->
+        <!--自定义插件 指定时间-->
+        <!-- <transition enter-active-class="bounceIn" leave-active-class="bounceOut" :duration="100">
+            <h3 v-if="flag" class="animated">这是一个可隐藏的h3</h3>
+        </transition> -->
+        <!--分别指定时间-->
+        <transition enter-active-class="bounceIn" leave-active-class="bounceOut" :duration="{enter:200,leave:400}">
+            <h3 v-if="flag" class="animated">这是一个可隐藏的h3</h3>
+        </transition>
+    </div>
+
+    <script>
+        //创建vue实例
+        //当我们导入包之后,在浏览器内存中,就多了一个vue构造函数 
+        var vm = new Vue({
+            el: '#app',//表示控制的对象的id
+            data: {//el数据
+                msg: '欢迎学习vue',
+                flag:false
+            },
+            methods:{
+                
+            }
+        })
+    </script>
+
+</body>
+
+</html>
