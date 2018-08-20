@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!--导入vue的包-->
+    <script src="../lib/vue-2.4.0.js"></script>
+</head>
+
+<body>
+
+    <div id="app">
+        <p>{{msg}}</p>
+        <mycom2></mycom2>
+    </div>
+
+
+    <script>
+        //第二种创建方式
+        Vue.component("mycom2",{
+            //根元素只能有一个可以使div包含别的
+            template:"<h3>这是Vue.component 创建出来的</h3>"
+        })
+
+        //创建vue实例
+        //当我们导入包之后,在浏览器内存中,就多了一个vue构造函数 
+        var vm = new Vue({
+            el: '#app',//表示控制的对象的id
+            data: {//el数据
+                msg: '欢迎学习vue'
+            },
+            methods:{
+                
+            }
+        })
+
+        
+    </script>
+
+</body>
+
+</html>
