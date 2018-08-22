@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!--导入vue的包-->
+    <script src="../lib/vue-2.4.0.js"></script>
+    <style>
+        .ball {
+            width: 15px;
+            height: 15px;
+            background-color: red;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{msg}}</p>
+        <input type="button" value="加入购物车" @click="flag=!flag">
+        <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
+            <div v-show="flag" class="ball"></div>
+        </transition>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app', //定义html模块对象id
+            data: {
+                msg: "欢迎学习vue",
+                flag: false
+
+            }, //定义数据
+            methods: {
+                beforeEnter(el) {
+                    el.style.transform = 'translate(0,0)'
+                },
+                enter(el,done) {
+                    el.offsetWidth
+                    el.style.transform = 'translate(150px,450px)'
+                    el.style.transition = "all 1s ease"
+                    done()
+                },
+                afterEnter(el) {
+                    this.flag=!this.flag
+                    //opacity不能实现多次加购物车的小球
+                    //el.style.opacity=0
+                    
+                }
+            }, //定义方法
+            filters: {}, //定义过滤器
+            directives: {}, //定义指令
+            components: {}, // 定义实例内部私有组件的
+            beforeCreate() {},
+            created() {},
+            beforeMount() {},
+            mounted() {},
+            beforeUpdate() {},
+            updated() {},
+            beforeDestroy() {},
+            destroyed() {}
+        })
+    </script>
+</body>
+
+</html>

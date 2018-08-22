@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!--导入vue的包-->
+    <script src="../lib/vue-2.4.0.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{msg}}</p>
+        <!--父组件,可以在引用子组件的时候,通过,属性绑定的形式,把需要传递给子组件的数据,
+        以属性绑定的形式,传递到子组件内部,供子组件使用-->
+        <com1 v-bind:parentmsg="msg2"></com1>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app', //定义html模块对象id
+            data: {
+                msg: "欢迎学习vue",
+                msg2:'123 啊-父组件数据'
+            }, //定义数据
+            methods: {}, //定义方法
+            filters: {}, //定义过滤器
+            directives: {}, //定义指令
+            components: {
+                //结论:子组件中默认无法访问父组件的data
+                com1:{
+                    //放ajax请求数据
+                    data(){
+                        return{
+                            title:'123',
+                            content:'qqq' 
+                        }
+                    },
+                    template:'<h1 @click="change">子组件--{{parentmsg}}</h1>',
+                    props:['parentmsg'],//把父组件传递过来的parentmsg属性,现在prop数组中定义,这样才能使用
+                    directives:{},
+                    filters:{},
+                    components:{},
+                    methods:{
+                        change(){
+                            this.parentmsg="被修改了"
+                        }
+                    }
+                }
+            }, // 定义实例内部私有组件的
+            beforeCreate() {},
+            created() {},
+            beforeMount() {},
+            mounted() {},
+            beforeUpdate() {},
+            updated() {},
+            beforeDestroy() {},
+            destroyed() {}
+        })
+    </script>
+</body>
+
+</html>
