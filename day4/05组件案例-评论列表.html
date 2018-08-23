@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!--导入vue的包-->
+    <script src="../lib/vue-2.4.0.js"></script>
+    <!--导入bootstrap-->
+    <link rel="stylesheet" href="../lib/bootstrap-3.3.7.css">
+</head>
+
+<body>
+    <div id="app">
+        <!-- <p>{{msg}}</p> -->
+        <combox @func="loadComment"></combox>
+        <ul class="list-group">
+            <li class="list-group-item" v-for="item in list" :key="item.id">
+                <span class="badge">评论人:{{item.user}}</span>
+                {{item.content}}
+            </li>
+        </ul>
+        
+    </div>
+
+    <template id="tmp1">
+        <div>
+            <div class="form-group">
+                <label>评论人:</label>
+                <input type="text" class="form-control" v-model="user">
+            </div>
+
+            <div class="form-group">
+                <label>评论内容:</label>
+                <textarea class="form-control" v-model="content"></textarea>
+            </div>
+
+            <div class="form-group">
+               <input type="button" value="发表评论" class="btn-primary btn" @click="postComment">
+            </div>
+        </div>
+    </template>
+    <script>
+        var commentBox = {
+            template:'#tmp1',
+            data(){
+                return{
+                    user:'',
+                    content:''
+                }
+            },
+            methods:{
+                postComment(){
+                    //alert(this.user+":"+this.content)
+                    var user = {id:Date.now(),user:this.user,content:this.content}
+                    //从localStorage获取所有的评论
+                    var list = JSON.parse(localStorage.getItem('cmts')||'[]')
+                    list.push(user)
+                    //重新保存最新的评论
+                    localStorage.setItem('cmts',JSON.stringify(list))
+                    
+                    //调用父类方法
+                    this.$emit('func')
+                    this.user=''
+                    this.content=''
+                }
+            }
+        }
+
+        var vm = new Vue({
+            el: '#app', //定义html模块对象id
+            data: {
+                msg: "欢迎学习vue",
+                list:[
+                    {id:Date.now(),user:'李白',content:'天生我才必有用'},
+                    {id:Date.now(),user:'江小白',content:'劝君更尽一杯酒'},
+                    {id:Date.now(),user:'东宝',content:'日本东宝电影集团'}
+                ]
+            }, //定义数据
+            methods: {
+                add(data){
+                    this.list.push({id:Date.now(),user:data.user,content:data.content})
+                    this.loadComment()
+                },
+                loadComment(){
+                    var list = JSON.parse(localStorage.getItem('cmts')||'[]')
+                    this.list=list
+                }
+            }, //定义方法
+            filters: {}, //定义过滤器
+            directives: {}, //定义指令
+            components: {
+                "combox":commentBox
+            }, // 定义实例内部私有组件的
+            beforeCreate() {
+                //注意:这里不能调用 loadComment
+            },
+            created() {
+                //这里调用就可以
+                this.loadComment()
+            },
+            beforeMount() {},
+            mounted() {},
+            beforeUpdate() {},
+            updated() {},
+            beforeDestroy() {},
+            destroyed() {}
+        })
+    </script>
+</body>
+
+</html>

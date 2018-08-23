@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!--导入vue的包-->
+    <script src="../lib/vue-2.4.0.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{msg}}</p>
+
+        <p>{{datamsgFormSon}}</p>
+        <!--子组件绑定父组件上的方法,当我们自定义了一个属性之后,那么子组件就能够,通过某些方式调用传递进去的方法-->
+        <com2 @func="show"></com2>
+    </div>
+
+    <template id="tmpl">
+        <div>
+            <h1>子组件</h1>
+            <input type="button" value="子组件按钮触发父组件方法" @click="myclick">
+        </div>
+    </template>
+    <script>
+        //定义了一个字面量类型的组件模版对象
+        var com2={
+            //通过指定了id,表示说去加载这个指定id的template元素中的内容,当作组建的html结构
+            template:"#tmpl",
+            methods:{
+                myclick(){
+                    //console.log('ok')
+                    //当子组件按钮被点击,如何拿到父组件方法并调用
+                    //emit 触发
+                    this.$emit('func',this.sonmsg)
+                }
+            },
+            data(){
+                return {
+                    sonmsg:{
+                        name:'小头儿子',
+                        age:12
+                    }
+                }
+            }
+        }
+        var vm = new Vue({
+            el: '#app', //定义html模块对象id
+            data: {
+                msg: "欢迎学习vue",
+                datamsgFormSon:null
+            }, //定义数据
+            methods: {
+                // show(data,data2){
+                //     console.log("调用父组件身上的show:---"+data+":"+data2)
+                // }
+                show(data){
+                    console.log("调用父组件身上的show:---"+data)
+                    this.datamsgFormSon = data
+                }
+            }, //定义方法
+            filters: {}, //定义过滤器
+            directives: {}, //定义指令
+            components: {
+                com2
+            }, // 定义实例内部私有组件的
+            beforeCreate() {},
+            created() {},
+            beforeMount() {},
+            mounted() {},
+            beforeUpdate() {},
+            updated() {},
+            beforeDestroy() {},
+            destroyed() {}
+        })
+    </script>
+</body>
+
+</html>
