@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!--导入vue的包-->
+    <script src="../lib/vue-2.4.0.js"></script>
+    <script src="../lib/vue-router-3.0.1.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{msg}}</p>
+        <router-link to="/login">登陆</router-link>
+        <router-link to="/register">注册</router-link>
+        <!--容器-->
+        <router-view></router-view>
+    </div>
+    <script>
+        //2.创建子组件
+        var login = {
+            template:'<h3>这是登陆组件</h3>'
+        }
+
+        var register = {
+            template:'<h3>这是注册组件</h3>'
+        }
+
+        //3.创建一个路由对象
+        var router = new VueRouter({
+            routes: [//路由规则数组
+                {path:"/",redirect:"/login"},
+                {path:"/login",component:login},
+                {path:"/register",component:register}
+            ],
+            linkActiveClass:'myactive'//激活相关的类
+
+        })
+
+        var vm = new Vue({
+            el: '#app', //定义html模块对象id
+            data: {
+                msg: "欢迎学习vue"
+            }, //定义数据
+            methods: {}, //定义方法
+            filters: {}, //定义过滤器
+            directives: {}, //定义指令
+            components: {}, // 定义实例内部私有组件的
+            beforeCreate() {},
+            created() {},
+            beforeMount() {},
+            mounted() {},
+            beforeUpdate() {},
+            updated() {},
+            beforeDestroy() {},
+            destroyed() {},
+            //注册路由
+            router:router
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!--导入vue的包-->
+    <script src="../lib/vue-2.4.0.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- <p>{{msg}}</p> -->
+        <com1 v-bind:fathermsg="msg" @func="getMsgFromSon"></com1>
+    </div>
+
+    <template id="tmpl">
+        <div>
+            <h1>我想继承，{{fathermsg}}</h1>
+            <input type="button" value="向父组件传递消息" @click="sendMsg">
+        </div>
+    </template>
+
+    <script>
+        var com1={
+            template:'#tmpl',
+            data(){
+                return{
+                    msg:'做一个孝顺的孩子，给爸爸钱'
+                }
+            },
+            props: ['fathermsg'],
+            methods:{
+                sendMsg(){
+                    this.$emit('func',this.msg)
+                }
+            }
+
+        }
+
+        var vm = new Vue({
+            el: '#app', //定义html模块对象id
+            data: {
+                msg: "爸爸有100元",
+                msgFromSon:''
+            }, //定义数据
+            methods: {
+                getMsgFromSon(data){
+                    this.msgFromSon = data
+                    console.log(this.msgFromSon)
+                }
+            }, //定义方法
+            filters: {}, //定义过滤器
+            directives: {}, //定义指令
+            components: {
+                com1
+            }// 定义实例内部私有组件的
+        })
+    </script>
+</body>
+
+</html>

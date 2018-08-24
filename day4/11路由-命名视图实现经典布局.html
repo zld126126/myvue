@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!--导入vue的包-->
+    <script src="../lib/vue-2.4.0.js"></script>
+    <script src="../lib/vue-router-3.0.1.js"></script>
+    <style>
+    .header{
+        background-color: orange;
+        height: 80px;
+    }
+
+    .container{
+        display: flex;
+        height: 600px;
+    }
+
+    h1{
+        margin: 0%;
+        padding: 0%;
+        font-size: 16px;
+    }
+
+    body,html{
+        margin: 0%;
+        padding: 0%;
+    }
+
+    .left{
+        background-color: greenyellow;
+        flex:2;
+    }
+
+    .main{
+        background-color:pink;
+        flex:8;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- <p>{{msg}}</p> -->
+
+        <router-view></router-view>
+        <div class="container">
+            <router-view name="left"></router-view>
+            <router-view name="main"></router-view>
+        </div>
+    </div>
+    <script>
+        var header = {
+            template:'<h1 class="header">头部区</h1>'
+        }
+        
+        var leftBox = {
+            template:'<h1 class="left">侧边栏</h1>'
+        }
+
+        var mainBox = {
+            template:'<h1 class="main">主体区</h1>'
+        }
+
+        var router = new VueRouter({
+            routes:[
+                // {path:"/",component:header},
+                // {path:"/left",component:leftBox},
+                // {path:"/main",component:mainBox}
+                {path:"/",components:{
+                    default:header,
+                    left:leftBox,
+                    main:mainBox
+                }}
+            ]
+        })
+
+        var vm = new Vue({
+            el: '#app', //定义html模块对象id
+            data: {
+                msg: "欢迎学习vue"
+            }, //定义数据
+            methods: {}, //定义方法
+            filters: {}, //定义过滤器
+            directives: {}, //定义指令
+            components: {}, // 定义实例内部私有组件的
+            beforeCreate() {},
+            created() {},
+            beforeMount() {},
+            mounted() {},
+            beforeUpdate() {},
+            updated() {},
+            beforeDestroy() {},
+            destroyed() {},
+            router
+        })
+    </script>
+</body>
+
+</html>
